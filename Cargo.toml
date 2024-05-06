@@ -14,3 +14,7 @@ serde = { version = "1.0.130", features = ["derive"]}
 lazy_static = { version = "1.4.0"}
 ##连接MSSQL数据库包
 mssql = {path = "mssql"}
+##tokio crate async runtime
+tokio = {version = "1.37.0",features = ["full"]}
+##hash转换
+rust-crypto = {version = "0.2.36"}
