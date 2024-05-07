@@ -10,6 +10,7 @@ edition = "2021"
 rocket = { version = "0.5.0",features = ["json"] }
 ##序列化与反序列化crate,添加“derive”使其#[derive(Serialize,Deserialize)]可用
 serde = { version = "1.0.130", features = ["derive"]}
+serde_json = { version = "1.0.116"}
 ##静态变量初始化crate
 lazy_static = { version = "1.4.0"}
 ##连接MSSQL数据库包
@@ -22,3 +23,6 @@ rust-crypto = {version = "0.2.36"}
 rand =  "0.8" 
 ##UUID crate 
 uuid = { version = "1", features = ["v4"] } 
+
+[profile.release]
+opt-level = 3

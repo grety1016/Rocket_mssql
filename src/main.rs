@@ -56,6 +56,6 @@ async fn main() {
 
     //uuid_fn();
 
-    serialize_fn();
+    //serialize_fn();
     
 }

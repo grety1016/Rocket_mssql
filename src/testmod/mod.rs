@@ -8,10 +8,19 @@ use rand::Rng;
 //uuid module:
 use uuid::Uuid;
 
+//serde_json module:
+use serde_json::json;
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Person {
     name: String,
     age:u8
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct User {
+    name: String,
+    age:u8,
+    phones: Vec<String>
 }
 
 pub async fn get_dbhost() -> String {
@@ -44,5 +53,17 @@ pub fn serialize_fn() {
         name: "John".to_string(),
         age: 28,
     };
+
+    let user = r#"{"name": "John Doe",
+    "age": 43,
+    "phones": [
+        "+44 1234567",
+        "+44 2345678"
+    ]}"#;
+
+    let user_json : User = serde_json::from_str(&user).unwrap();
+
+    println!("Serialized: {:#?}", Json(user_json));
+
     println!("Serialized: {:#?}", Json(person));
 }
