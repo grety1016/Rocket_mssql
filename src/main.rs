@@ -1,17 +1,31 @@
 //rocket use modules:
+//Rocket启动，路由注册，路由分配等
 #[allow(unused_imports)]
 use rocket::{self,build,get,post,launch,routes};
+//Rocket内嵌的tokio异步运行时
 #[allow(unused_imports)]
 use rocket::tokio::{task,time};
+
+//Rocket 内嵌的UUID
+ 
+
 
 //std use modules:
 use std::env;
 
-//database config module
-pub mod db_config;
+//Deserialize Serialize
+use serde::{Serialize,Deserialize};
 
-//crypto modules:
-use crypto::{digest::Digest, sha2::Sha256};
+//local lib module:
+pub mod db_config;
+pub mod testmod;
+
+
+//local lib use:
+use testmod:: {crypto_hash,get_dbhost,uuid_fn,serialize_fn};
+
+ 
+ 
  
 
 //extern use modules:
@@ -33,24 +47,15 @@ fn index(name:& str) -> String{
 //     rocket::build()
 //     .mount("/",routes![index])
 // }
+
 #[tokio::main]
 async fn main() {
     //println!("host:{}",get_dbhost()).await;
-    crypto_hash();
+
+    //crypto_hash();
+
+    //uuid_fn();
+
+    serialize_fn();
     
 }
-
-async fn get_dbhost() -> String {
-    let host = std::env::var("DB_HOST").unwrap();
-    host
-}
-
-fn crypto_hash() {
-    let mut hasher = Sha256::new();
-    hasher.input_str("helloword");
-    let hex = hasher.result_str();
-    println!("pwd into hash: {}", hex);
-     
-}
-//f0da559ea59ced68b4d657496bee9753c0447d70702af1a351c7577226d97723
-//0b322d15ea034793a8646baa1744ffacbdf7f959b66c68970f032c4ac8b9c8cb

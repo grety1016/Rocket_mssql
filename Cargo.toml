@@ -18,3 +18,7 @@ mssql = {path = "mssql"}
 tokio = {version = "1.37.0",features = ["full"]}
 ##hash转换
 rust-crypto = {version = "0.2.36"}
+##random number
+rand =  "0.8" 
+##UUID crate 
+uuid = { version = "1", features = ["v4"] } 
