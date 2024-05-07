@@ -38,20 +38,20 @@ fn index(name:& str) -> String{
 }
 
 
-// #[launch]
-// async fn rocket() -> _ {
-//     rocket::build()
-//     .mount("/",routes![index])
-// }
-
-#[tokio::main]
-async fn main() {
-    //println!("host:{}",get_dbhost()).await;
-
-    //crypto_hash();
-
-    //uuid_fn();
-
-    //serialize_fn();
-    
+#[launch]
+async fn rocket() -> _ {
+    rocket::build()
+    .mount("/",routes![index])
 }
+
+// #[tokio::main]
+// async fn main() {
+//     //println!("host:{}",get_dbhost()).await;
+
+//     //crypto_hash();
+
+//     //uuid_fn();
+
+//     //serialize_fn();
+    
+// }
