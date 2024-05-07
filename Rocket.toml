@@ -4,4 +4,4 @@ port = 8000
 
 
 [global]
-##cli_colors = false
+cli_colors = false

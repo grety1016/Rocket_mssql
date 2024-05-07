@@ -35,7 +35,22 @@ fn index(name:& str) -> String{
 // }
 #[tokio::main]
 async fn main() {
-    let host = std::env::var("DB_HOST").unwrap();
-    println!("db_host: {:?}",host);
+    //println!("host:{}",get_dbhost()).await;
+    crypto_hash();
     
 }
+
+async fn get_dbhost() -> String {
+    let host = std::env::var("DB_HOST").unwrap();
+    host
+}
+
+fn crypto_hash() {
+    let mut hasher = Sha256::new();
+    hasher.input_str("helloword");
+    let hex = hasher.result_str();
+    println!("pwd into hash: {}", hex);
+     
+}
+//f0da559ea59ced68b4d657496bee9753c0447d70702af1a351c7577226d97723
+//0b322d15ea034793a8646baa1744ffacbdf7f959b66c68970f032c4ac8b9c8cb
