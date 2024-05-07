@@ -6,10 +6,6 @@ use rocket::{self,build,get,post,launch,routes};
 #[allow(unused_imports)]
 use rocket::tokio::{task,time};
 
-//Rocket 内嵌的UUID
- 
-
-
 //std use modules:
 use std::env;
 
