@@ -424,6 +424,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "eventful"
+version = "0.1.1"
+dependencies = [
+ "lazy_static",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "fastrand"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1466,6 +1475,7 @@ dependencies = [
 name = "rocket"
 version = "0.1.0"
 dependencies = [
+ "eventful",
  "lazy_static",
  "mssql",
  "rand 0.8.5",

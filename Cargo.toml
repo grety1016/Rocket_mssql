@@ -15,6 +15,8 @@ serde_json = { version = "1.0.116"}
 lazy_static = { version = "1.4.0"}
 ##连接MSSQL数据库包
 mssql = {path = "mssql"}
+##事件驱动包
+eventful = {path = "eventful"}
 ##tokio crate async runtime
 tokio = {version = "1.37.0",features = ["full"]}
 ##hash转换
