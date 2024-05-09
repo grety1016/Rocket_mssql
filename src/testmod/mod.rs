@@ -192,7 +192,7 @@ pub async fn eventful_fn() {
     vec_object.push(eventpack);
     vec_object.push(eventpack2);
 
-    print_simple_type_of(&user1);
+    //print_simple_type_of(&user1);
 
     // for item in vec_object.iter() {
 
