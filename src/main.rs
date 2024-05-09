@@ -33,9 +33,9 @@ lazy_static! {
     ///一个数字全局变量
     static ref NUMBERS:u32 = 0;
     ///一个用于全局多线程的事件分发器
-    static ref USER_EVENT:Arc<Mutex<Eventful>> = Arc::new(Mutex::new(Eventful::new()));
+    static ref EVENT_PUBLISH:Arc<Mutex<Eventful>> = Arc::new(Mutex::new(Eventful::new()));
     ///一个用于全局多线程的用户共享信息变量
-    static ref USERS: Arc<Mutex<Vec<EventPack>>> = Arc::new(Mutex::new(Vec::new()));
+    static ref EVENT_PACK: Arc<Mutex<Vec<EventPack>>> = Arc::new(Mutex::new(Vec::new()));
 }
 
 #[get("/<name>")]
