@@ -39,19 +39,26 @@ define_topic! {
 }
 
 ///声明一个标记Trait
-pub trait MarkTrait: Send + Debug  + 'static {}
-///为类型实现标记Trait
+pub trait MarkTrait: Send + Debug  + Clone + 'static {}
+///为不同类型实现标记Trait
 impl MarkTrait for User {}
 impl MarkTrait for Person {}
+
+//枚举用于存储事件所针对的不同类型
+pub enum MarkTraitEnum {
+    User,
+    Person,
+}
+
 
 ///用于保存事件传递时需要的变量类型 
 pub struct EventPack {
     name: String,
-    object: Box<dyn MarkTrait>,
+    object: MarkTraitEnum,
     eventfn: Box<dyn FnMut(Message<TopicEventPack>) + Send + 'static>,
 }
 impl EventPack {
-    pub fn new<T, F>(name: String, object: Box<T>, eventfn: Box<F>) -> Self
+    pub fn new<T, F>(name: String, object: MarkTraitEnum, eventfn: Box<F>) -> Self
     where
         T: MarkTrait + 'static,
         F: FnMut(Message<TopicEventPack>) + Send + 'static,
