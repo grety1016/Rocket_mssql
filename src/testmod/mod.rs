@@ -17,6 +17,9 @@ use eventful::*;
 ///tracing module:
 use tracing::info;
 
+//引入全局变量EVENT_PACK
+use crate::EVENT_PACK;
+
 ///use std::sync::atomic::{AtomicI16, Ordering},Arc;
 use std::{
     any::Any,
@@ -24,7 +27,7 @@ use std::{
     fmt::Debug,
     sync::{
         atomic::{AtomicI16, Ordering},
-        Arc,
+        Arc,Mutex
     },
 };
 
@@ -39,26 +42,20 @@ define_topic! {
 }
 
 ///声明一个标记Trait
-pub trait MarkTrait: Send + Debug  + Clone + 'static {}
+pub trait MarkTrait: Send + Debug  + 'static {}
 ///为不同类型实现标记Trait
 impl MarkTrait for User {}
 impl MarkTrait for Person {}
-
-//枚举用于存储事件所针对的不同类型
-pub enum MarkTraitEnum {
-    User,
-    Person,
-}
 
 
 ///用于保存事件传递时需要的变量类型 
 pub struct EventPack {
     name: String,
-    object: MarkTraitEnum,
+    object: Box<dyn MarkTrait>,
     eventfn: Box<dyn FnMut(Message<TopicEventPack>) + Send + 'static>,
 }
 impl EventPack {
-    pub fn new<T, F>(name: String, object: MarkTraitEnum, eventfn: Box<F>) -> Self
+    pub fn new<T, F>(name: String, object: Box<T>, eventfn: Box<F>) -> Self
     where
         T: MarkTrait + 'static,
         F: FnMut(Message<TopicEventPack>) + Send + 'static,
@@ -230,26 +227,30 @@ fn init() {
 ///事件机制方法
 pub async fn eventful_fn() {
     init();
-    let mut vec_object: Vec<EventPack> = Vec::new();
+    //let mut vec_object: Vec<EventPack> = Vec::new();
     let user = User::new("grety".to_string());
     let person: Person = Person::new("human".to_string());
     let eventpack_user = EventPack::new(
-        user.get_name().to_string(),
+        "userevent".to_string(),
         Box::new(user.clone()),
         Box::new(user.create_fn_mut()),
     );
 
     let eventpack_person = EventPack::new(
-        person.get_name().to_string(),
+        "personevent".to_string(),
         Box::new(person.clone()),
         Box::new(person.create_fn_mut()),
     );
+
+     
+    
 
     //vec_object.push(eventpack_user);
     //vec_object.push(eventpack_person);
     
     let eventful = Eventful::new();
-    eventful.subscribe(TopicEventPack, eventpack_user.eventfn);
+    
+    //eventful.subscribe(TopicEventPack, eventpack_user.eventfn);
     //eventful.publish(TopicEventPack, eventpack_user);
 
 
