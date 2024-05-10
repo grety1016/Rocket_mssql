@@ -17,7 +17,6 @@ use eventful::*;
 ///tracing module:
 use tracing::info;
 
-
 ///use std::sync::atomic::{AtomicI16, Ordering},Arc;
 use std::{
     any::Any,
@@ -31,6 +30,9 @@ use std::{
 
 ///用于钉住一个动态类型在Future异步时的内存位置
 use std::{future::Future, pin::Pin};
+
+///引入全局事件分发器
+use crate::EVENT_PUBLISH;
 
 ///创建事件主题
 define_topic! {
@@ -190,22 +192,36 @@ fn init() {
     tracing::subscriber::set_global_default(subscriber).unwrap();
 }
 ///事件机制方法
-pub async fn eventful_fn() {
+pub  async fn eventful_fn() {
     init();
-    //let mut vec_object: Vec<EventPack> = Vec::new();
+     
     let user = User::new("grety".to_string());
     let person: Person = Person::new("human".to_string());
+    println!("begin……");
+     
+    ///多线程从全局事件分发器共享获取资源  
+
+    {
+        let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.subscribe_async(TopicUser,user.create_fn_mut2());
+        }
+    }
+
+    {
+        let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.publish(TopicUser,user);
+        }
+    }
+    {
+        let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.take() {
+            eventful.shutdown();          
+
+        }
+    }
 
 
-    let eventful = Eventful::new();
-
-    eventful.subscribe(TopicUser, user.create_fn_mut());
-    eventful.subscribe(TopicPerson, person.create_fn_mut());
-
-    eventful.publish(TopicUser, user);
-    eventful.publish(TopicPerson, person);
-
-    eventful.shutdown();
-
-   
+       
 }
