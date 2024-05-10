@@ -24,7 +24,7 @@ use eventful::*;
 
 //local lib use:
 use testmod::*;
-use testmod::{crypto_hash, eventful_fn, get_dbhost, serialize_fn, uuid_fn, EventPack};
+use testmod::{crypto_hash, eventful_fn, get_dbhost, serialize_fn, uuid_fn};
 
 //extern use modules:
 use lazy_static::lazy_static;
@@ -34,8 +34,6 @@ lazy_static! {
     static ref NUMBERS:u32 = 0;
     ///一个用于全局多线程的事件分发器
     static ref EVENT_PUBLISH:Arc<Mutex<Eventful>> = Arc::new(Mutex::new(Eventful::new()));
-    ///一个用于全局多线程的用户共享信息变量
-    static ref EVENT_PACK: Arc<Mutex<Vec<EventPack>>> = Arc::new(Mutex::new(Vec::new()));
 }
 
 #[get("/<name>")]

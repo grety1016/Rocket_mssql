@@ -17,8 +17,6 @@ use eventful::*;
 ///tracing module:
 use tracing::info;
 
-//引入全局变量EVENT_PACK
-use crate::EVENT_PACK;
 
 ///use std::sync::atomic::{AtomicI16, Ordering},Arc;
 use std::{
@@ -27,7 +25,7 @@ use std::{
     fmt::Debug,
     sync::{
         atomic::{AtomicI16, Ordering},
-        Arc,Mutex
+        Arc, Mutex,
     },
 };
 
@@ -37,44 +35,11 @@ use std::{future::Future, pin::Pin};
 ///创建事件主题
 define_topic! {
     /// 主题User
-    ["topic EventPack"]
-    TopicEventPack: EventPack;
+    ["topic EventUser"]
+    TopicUser: User;
+    ["topic EventUser"]
+    TopicPerson: Person;
 }
-
-///声明一个标记Trait
-pub trait MarkTrait: Send + Debug  + 'static {}
-///为不同类型实现标记Trait
-impl MarkTrait for User {}
-impl MarkTrait for Person {}
-
-
-///用于保存事件传递时需要的变量类型 
-pub struct EventPack {
-    name: String,
-    object: Box<dyn MarkTrait>,
-    eventfn: Box<dyn FnMut(Message<TopicEventPack>) + Send + 'static>,
-}
-impl EventPack {
-    pub fn new<T, F>(name: String, object: Box<T>, eventfn: Box<F>) -> Self
-    where
-        T: MarkTrait + 'static,
-        F: FnMut(Message<TopicEventPack>) + Send + 'static,
-    {
-        EventPack {
-            name,
-            object,
-            eventfn,
-        }
-    }
-}
-///实现事件包类型初始化方法
-// impl EventPack {
-//         pub fn new(name: String, object: Box<dyn MarkTrait>,eventfn:Box<dyn FnMut(Message<TopicEventPack>) + Send + 'static>) -> Self
-//         {
-//             EventPack { name, object,eventfn }
-//         }
-
-//     }
 
 ///用户类型
 #[derive(Clone, Debug)]
@@ -88,9 +53,9 @@ impl User {
     }
     ////
     ///这是一个返回闭包的函数
-    pub fn create_fn_mut(&self) -> Box<dyn FnMut(Message<TopicEventPack>) + Send + 'static> {
+    pub fn create_fn_mut(&self) -> Box<dyn FnMut(Message<TopicUser>) + Send + 'static> {
         Box::new(move |msg| {
-            println!("user name1: {},开车行驶中", msg.name);
+            println!("user name: {},开车行驶中", msg.name);
         })
     }
 
@@ -105,12 +70,12 @@ impl User {
     ///这是一个闭包中返回一个Future的
     pub fn create_fn_mut2(
         &self,
-    ) -> Box<dyn FnMut(Message<TopicEventPack>) -> Pin<Box<dyn Future<Output = ()>>> + Send + 'static>
+    ) -> Box<dyn FnMut(Message<TopicUser>) -> Pin<Box<dyn Future<Output = ()>>> + Send + 'static>
     {
         Box::new(move |msg| {
             Box::pin(async move {
                 tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
-                println!("user name2: {},开车行驶中", msg.name);
+                println!("user name: {},开车行驶中", msg.name);
             })
         })
     }
@@ -118,7 +83,7 @@ impl User {
 
 ///人类类型
 #[derive(Debug, Serialize, Deserialize, Clone)]
-struct Person {
+pub struct Person {
     name: String,
 }
 ///实现人类初始化
@@ -128,9 +93,9 @@ impl Person {
     }
     ////
     ///这是一个返回闭包的函数
-    pub fn create_fn_mut(&self) -> Box<dyn FnMut(Message<TopicEventPack>) + Send + 'static> {
+    pub fn create_fn_mut(&self) -> Box<dyn FnMut(Message<TopicPerson>) + Send + 'static> {
         Box::new(move |msg| {
-            println!("user name1: {},开车行驶中", msg.name);
+            println!("person name: {},开车行驶中", msg.name);
         })
     }
 
@@ -145,12 +110,12 @@ impl Person {
     ///这是一个闭包中返回一个Future的
     pub fn create_fn_mut2(
         &self,
-    ) -> Box<dyn FnMut(Message<TopicEventPack>) -> Pin<Box<dyn Future<Output = ()>>> + Send + 'static>
+    ) -> Box<dyn FnMut(Message<TopicPerson>) -> Pin<Box<dyn Future<Output = ()>>> + Send + 'static>
     {
         Box::new(move |msg| {
             Box::pin(async move {
                 tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
-                println!("user name2: {},开车行驶中", msg.name);
+                println!("person name: {},开车行驶中", msg.name);
             })
         })
     }
@@ -230,60 +195,11 @@ pub async fn eventful_fn() {
     //let mut vec_object: Vec<EventPack> = Vec::new();
     let user = User::new("grety".to_string());
     let person: Person = Person::new("human".to_string());
-    let eventpack_user = EventPack::new(
-        "userevent".to_string(),
-        Box::new(user.clone()),
-        Box::new(user.create_fn_mut()),
-    );
 
-    let eventpack_person = EventPack::new(
-        "personevent".to_string(),
-        Box::new(person.clone()),
-        Box::new(person.create_fn_mut()),
-    );
 
-     
-    
-
-    //vec_object.push(eventpack_user);
-    //vec_object.push(eventpack_person);
-    
     let eventful = Eventful::new();
-    
-    //eventful.subscribe(TopicEventPack, eventpack_user.eventfn);
-    //eventful.publish(TopicEventPack, eventpack_user);
+    eventful.publish(TopicUser, user);
+    eventful.shutdown();
 
-
-
-
-    //print_simple_type_of(&user1);
-
-    // for item in vec_object.iter() {
-
-    //     info!("{:#?}",item.object);
-    // }
-
-    // let user = User::new("joke".to_string());
-    // let eventful = Eventful::new();
-
-    // eventful.subscribe(TopicUser, user.create_fn_mut());
-
-    // let user_clone = user.clone();
-    // eventful.publish(TopicUser, user_clone);
-
-    // eventful.shutdown();
-
-    // tokio::task::spawn(
-    //     async move{
-    //         loop  {
-    //             let user_event = USER_EVENT.lock().unwrap();
-
-    //             user_event.publish(TopicUser,user_clone);
-    //         }
-    //     }
-    // );
-
-    // let user_event = USER_EVENT.lock().unwrap();
-    // user_event.subscribe(TopicUser,user.create_fn_mut());
-    // user_event.subscribe_async(TopicUser,user.create_fn_mut2());
+   
 }
