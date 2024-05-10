@@ -35,9 +35,9 @@ use std::{future::Future, pin::Pin};
 ///创建事件主题
 define_topic! {
     /// 主题User
-    ["topic EventUser"]
+    ["topic UserEvent"]
     TopicUser: User;
-    ["topic EventUser"]
+    ["topic PersonEvent"]
     TopicPerson: Person;
 }
 
@@ -198,7 +198,13 @@ pub async fn eventful_fn() {
 
 
     let eventful = Eventful::new();
+
+    eventful.subscribe(TopicUser, user.create_fn_mut());
+    eventful.subscribe(TopicPerson, person.create_fn_mut());
+
     eventful.publish(TopicUser, user);
+    eventful.publish(TopicPerson, person);
+
     eventful.shutdown();
 
    
