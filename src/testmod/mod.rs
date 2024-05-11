@@ -116,7 +116,7 @@ impl Person {
     {
         Box::new(move |msg| {
             Box::pin(async move {
-                tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
+                tokio::time::sleep(tokio::time::Duration::from_secs(3)).await;
                 println!("person name: {},开车行驶中", msg.name);
             })
         })
@@ -197,31 +197,84 @@ pub  async fn eventful_fn() {
      
     let user = User::new("grety".to_string());
     let person: Person = Person::new("human".to_string());
-    println!("begin……");
      
-    ///多线程从全局事件分发器共享获取资源  
+     
+    //多线程从全局事件分发器共享获取资源  
 
-    {
-        let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-        if let Some(eventful) = eventful_opt.as_ref() {
-            eventful.subscribe_async(TopicUser,user.create_fn_mut2());
-        }
-    }
+    // {
+    //     let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+    //     if let Some(eventful) = eventful_opt.as_ref() {
+    //         eventful.subscribe_async(TopicUser,user.create_fn_mut2());
+    //     }
+    // }
 
-    {
-        let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-        if let Some(eventful) = eventful_opt.as_ref() {
-            eventful.publish(TopicUser,user);
-        }
-    }
+    // {
+    //     let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+    //     if let Some(eventful) = eventful_opt.as_ref() {
+    //         eventful.publish(TopicUser,user);
+    //     }
+    // }
+    // {
+    //     let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+    //     if let Some(eventful) = eventful_opt.take() {
+    //         eventful.shutdown();          
+
+    //     }
+    // }
+
+    //非全局变量使用
+    let user_clone = user.clone();
+    let person_clone = person.clone();
+
+        info!("testing……");
+       
+     
+        {
+            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+            if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.subscribe_async(TopicUser,user_clone.create_fn_mut2());           
+            }
+        } 
+        //tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
+        {
+            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+            if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.subscribe_async(TopicPerson,person_clone.create_fn_mut2());           
+            }
+        } 
+        //tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;         
+ 
+
+ 
+        {
+            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+            if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.publish(TopicUser,user);           
+            }
+        }   
+        {
+            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
+            if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.publish(TopicPerson,person);           
+            }
+        }   
+        
+   
+     
+    
+    
+
     {
         let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
         if let Some(eventful) = eventful_opt.take() {
-            eventful.shutdown();          
-
+            eventful.shutdown();           
         }
-    }
-
+    }  
+    
+    
 
        
 }
+
+
+//下列函数来源于rust_new
