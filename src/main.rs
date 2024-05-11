@@ -42,21 +42,21 @@ fn index(name: &str) -> String {
     return_str
 }
 
-// #[launch]
-// async fn rocket() -> _ {
-//     rocket::build()
-//     .mount("/",routes![index])
-// }
+#[launch]
+async fn rocket() -> _ {
+    rocket::build()
+    .mount("/",routes![index])
+}
 
 #[tokio::main]
-async fn main() {
-    // println!("host:{}",get_dbhost()).await;
+// async fn main() {
+//     // println!("host:{}",get_dbhost()).await;
 
-    // crypto_hash();
+//     // crypto_hash();
 
-    // uuid_fn();
+//     // uuid_fn();
 
-    // serialize_fn();
+//     // serialize_fn();
 
-    eventful_fn().await;
-}
+//     eventful_fn().await;
+// }
