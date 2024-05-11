@@ -44,11 +44,10 @@ fn index(name: &str) -> String {
 
 #[launch]
 async fn rocket() -> _ {
-    rocket::build()
-    .mount("/",routes![index])
+    rocket::build().mount("/", routes![index])
 }
 
-#[tokio::main]
+//#[tokio::main]
 // async fn main() {
 //     // println!("host:{}",get_dbhost()).await;
 

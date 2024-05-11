@@ -17,7 +17,7 @@ use eventful::*;
 ///tracing module:
 use tracing::info;
 
-///use std::sync::atomic::{AtomicI16, Ordering},Arc;
+//use std::sync::atomic::{AtomicI16, Ordering},Arc;
 use std::{
     any::Any,
     clone,
@@ -34,7 +34,7 @@ use std::{future::Future, pin::Pin};
 ///引入全局事件分发器
 use crate::EVENT_PUBLISH;
 
-///创建事件主题
+//创建事件主题
 define_topic! {
     /// 主题User
     ["topic UserEvent"]
@@ -148,7 +148,7 @@ pub fn crypto_hash() {
 }
 //生成UUID方法
 pub fn uuid_fn() {
-    let mut uuid = Uuid::new_v4();
+    let uuid = Uuid::new_v4();
     println!("UUID: {}", uuid);
     let my_uuid = Uuid::parse_str(uuid.to_string().as_str()).unwrap();
     println!("uuid: {:#?}", my_uuid);
@@ -192,14 +192,13 @@ fn init() {
     tracing::subscriber::set_global_default(subscriber).unwrap();
 }
 ///事件机制方法
-pub  async fn eventful_fn() {
+pub async fn eventful_fn() {
     init();
-     
+
     let user = User::new("grety".to_string());
     let person: Person = Person::new("human".to_string());
-     
-     
-    //多线程从全局事件分发器共享获取资源  
+
+    //多线程从全局事件分发器共享获取资源
 
     // {
     //     let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
@@ -217,7 +216,7 @@ pub  async fn eventful_fn() {
     // {
     //     let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
     //     if let Some(eventful) = eventful_opt.take() {
-    //         eventful.shutdown();          
+    //         eventful.shutdown();
 
     //     }
     // }
@@ -226,55 +225,42 @@ pub  async fn eventful_fn() {
     let user_clone = user.clone();
     let person_clone = person.clone();
 
-        info!("testing……");
-       
-     
-        {
-            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-            if let Some(eventful) = eventful_opt.as_ref() {
-            eventful.subscribe_async(TopicUser,user_clone.create_fn_mut2());           
-            }
-        } 
-        //tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
-        {
-            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-            if let Some(eventful) = eventful_opt.as_ref() {
-            eventful.subscribe_async(TopicPerson,person_clone.create_fn_mut2());           
-            }
-        } 
-        //tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;         
- 
-
- 
-        {
-            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-            if let Some(eventful) = eventful_opt.as_ref() {
-            eventful.publish(TopicUser,user);           
-            }
-        }   
-        {
-            let eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-            if let Some(eventful) = eventful_opt.as_ref() {
-            eventful.publish(TopicPerson,person);           
-            }
-        }   
-        
-   
-     
-    
-    
+    info!("testing……");
 
     {
-        let mut eventful_opt  = EVENT_PUBLISH.lock().unwrap();
-        if let Some(eventful) = eventful_opt.take() {
-            eventful.shutdown();           
+        let eventful_opt = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.subscribe_async(TopicUser, user_clone.create_fn_mut2());
         }
-    }  
-    
-    
+    }
+    //tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
+    {
+        let eventful_opt = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.subscribe_async(TopicPerson, person_clone.create_fn_mut2());
+        }
+    }
+    //tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
 
-       
+    {
+        let eventful_opt = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.publish(TopicUser, user);
+        }
+    }
+    {
+        let eventful_opt = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.as_ref() {
+            eventful.publish(TopicPerson, person);
+        }
+    }
+
+    {
+        let mut eventful_opt = EVENT_PUBLISH.lock().unwrap();
+        if let Some(eventful) = eventful_opt.take() {
+            eventful.shutdown();
+        }
+    }
 }
-
 
 //下列函数来源于rust_new
