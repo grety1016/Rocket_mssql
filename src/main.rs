@@ -15,11 +15,12 @@ use std::{
 };
 //系列与反系列化宏
 use serde::{Deserialize, Serialize};
+use serde_json::{json,Value};
 //本地定义的模块:
 pub mod db_config;
 pub mod testmod;
 ///日志追踪库:
-use tracing::info;
+pub use tracing::info;
 
 ///事件驱动库:
 use eventful::*;
@@ -50,6 +51,49 @@ lazy_static! {
     static ref EVENT_PUBLISH:Arc<Mutex<Option<Eventful>>> = Arc::new(Mutex::new(Some(Eventful::new())));
 }
 
+///下列引用用于websocket
+use rocket::http::Status;
+use rocket::response::status;
+use rocket::tokio::sync::broadcast;
+use rocket::State;
+use rocket_ws::{WebSocket, stream::DuplexStream}; 
+use rocket::futures::{SinkExt, StreamExt};
+
+
+// #[get("/ws?<name>&<age>")]
+// async fn ws<'r>(ws:WebSocket,name:&'r str,age:u8) -> rocket_ws::Channel<'r> {
+//     ws.channel(move |mut stream| Box::pin(async move {        
+//         let message = format!("Hello!{:#?},{}",name,age); 
+//             let object = json!({
+//                 "name":name,
+//                 "age":age,
+//             }); 
+            
+//             let object = serde_json::to_string(&object).unwrap();      
+         
+//             let message_clone = message.clone();
+//             tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+//             let _ = stream.send(object.into()).await;            
+         
+//         Ok(())
+//     }))
+// }
+
+
+#[get("/ws2")]
+async fn ws2(ws:WebSocket) -> rocket_ws::Channel<'static> {
+    ws.channel(move |mut stream| Box::pin(async move {     
+            //tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+            let _ = stream.send("hello".into()).await;            
+         
+        Ok(())
+    }))
+}
+
+
+
+
+
 #[get("/?<name>&<age>&<pwd>")]
 fn index<'r>(name:&'r str,age:u8,pwd:String) -> String {    
 
@@ -69,17 +113,16 @@ async fn rocket() -> _ {
         allowed_headers: rocket_cors::AllowedHeaders::all(),
         allow_credentials: true,
         ..Default::default()
-    }
-    .to_cors()
+    }.to_cors()
     .expect("CORS configuration failed");
 
     //初始化trancing日志追踪
     init(); 
 
-    //进行rocket服务器启动
+    //rocket服务器启动
     rocket::build() 
     .attach(cors)
-    .mount("/", routes![index])
+    .mount("/", routes![index,ws2])
 }
 
 //#[tokio::main]
