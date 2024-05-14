@@ -183,7 +183,7 @@ pub fn print_simple_type_of<T>(_: &T) {
 }
 
 ///日志追踪
-fn init() {
+pub fn init() {
     let subscriber = tracing_subscriber::FmtSubscriber::builder()
         .with_max_level(tracing::Level::INFO)
         .finish();

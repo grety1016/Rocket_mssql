@@ -15,7 +15,7 @@ pub fn conn_str() -> String {
     let user = "sa";
     let pwd = "kephi";
     format!(
-        r#"Server={};Database={};Uid={};Pwd="{}";TrustServerCertificate=true;"#,
+        r#"Server={};Database={};Uid={};Pwd="{}";TrustServerCertificate=true;"#,//integratedsecurity=sspi 用于进行本地用户验证，不需要user,pwd
         host, database, user, pwd
     )
 }

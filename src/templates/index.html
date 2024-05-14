@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form id="queryForm">
+        <label for="name">姓名:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="pwd">密码:</label><br>
+        <input type="text" id="pwd" name="pwd"><br>
+        <label for="age">年龄:</label><br>
+        <input type="text" id="age" name="age"><br>
+        <input type="button" value="查询" onclick="submitQuery()">
+      </form>
+</body>
+</html>
+ 
+
+<script>
+    function submitQuery() {
+      var name = $('#name').val();
+      var age = $('#age').val();
+      var pwd = $('#pwd').val();
+
+      var url = 'http://localhost:8000/';
+    
+      var data = {};
+      if (name) {
+        data.name = name;
+      }
+      if (age) {
+        data.age = age;
+      }
+      if (pwd) {
+        data.pwd = pwd;
+      }
+    
+      $.ajax({
+        url: url,
+        crossDomain: true,
+        type: 'GET',
+        data: data,
+        success: function(response) {
+          console.log("success");
+
+          console.log(response);
+          // 在这里处理服务器返回的响应
+        },
+        error: function(error) {
+          console.log("error");
+          console.log(error);
+          // 在这里处理错误
+        }
+      });
+    }
+    </script>
