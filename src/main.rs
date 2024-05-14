@@ -1,33 +1,28 @@
-use rocket::fairing::AdHoc;
-//rocket use modules:
 //Rocket启动，路由注册，路由分配等
 #[allow(unused_imports)]
-use rocket::{self, build, get, launch, post, routes};
+use rocket::{self, build, get, launch, post, routes,fairing::AdHoc};
 //Rocket内嵌的tokio异步运行时
 #[allow(unused_imports)]
 use rocket::tokio::{task, time};
-
-//std use modules:
+//标准库:
 use std::{
     env,
     sync::{Arc, Mutex},
 };
-
-//Deserialize Serialize
+//系列与反系列化宏
 use serde::{Deserialize, Serialize};
-
-//local lib module:
+//本地定义的模块:
 pub mod db_config;
 pub mod testmod;
 
-///eventful module:
+///事件驱动库:
 use eventful::*;
 
-//local lib use:
+//本地对象引入:
 use testmod::*;
 use testmod::{crypto_hash, eventful_fn, get_dbhost, serialize_fn, uuid_fn};
 
-//extern use modules:
+//声明静态变量库:
 use lazy_static::lazy_static;
 
 #[derive(Deserialize)]

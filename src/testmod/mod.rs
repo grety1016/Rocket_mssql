@@ -1,24 +1,24 @@
-//crypto modules:
+//Hash加密库:
 pub use crypto::{digest::Digest, sha2::Sha256};
-//rocket crate
+//rocket web库
 pub use rocket::serde::{json::Json, Deserialize, Serialize};
-//random number modules:
+//随机函数库:
 use rand::Rng;
 
-//uuid module:
+//uuid库:
 use uuid::Uuid;
 
-//serde_json module:
+//JSon系列-反系列库:
 use serde_json::json;
 
-///use eventful crate:
+///事件驱动库:
 use eventful::*;
 
-///tracing module:
+///日志追踪库:
 use tracing::info;
 
-//use std::sync::atomic::{AtomicI16, Ordering},Arc;
-use std::{
+//标准库;
+pub use std::{
     any::Any,
     clone,
     fmt::Debug,
@@ -26,10 +26,8 @@ use std::{
         atomic::{AtomicI16, Ordering},
         Arc, Mutex,
     },
+    future::Future, pin::Pin
 };
-
-///用于钉住一个动态类型在Future异步时的内存位置
-use std::{future::Future, pin::Pin};
 
 ///引入全局事件分发器
 use crate::EVENT_PUBLISH;
