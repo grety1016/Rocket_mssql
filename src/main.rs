@@ -62,8 +62,7 @@ fn index<'r>(name:&'r str,age:u8,pwd:String) -> String {
 async fn rocket() -> _ {
     //使用rocket_cors处理跨域同源策略问题：
     let allowed_origins = AllowedOrigins::all();
-    //AllowedOrigins::all();
-
+    //cors请求处理配置
     let cors = CorsOptions {
         allowed_origins,
         allowed_methods: vec![Method::Get, Method::Post].into_iter().map(From::from).collect(),
