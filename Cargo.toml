@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 ##Rocket crate
 rocket = { version = "0.5.0",features = ["json"] }
+##Tera模板
+tera = {version = "1",default-features = false}
 ##序列化与反序列化crate,添加“derive”使其#[derive(Serialize,Deserialize)]可用
 serde = { version = "1.0.130", features = ["derive"]}
 serde_json = { version = "1.0.116"}
@@ -28,6 +30,7 @@ uuid = { version = "1", features = ["v4"] }
 ##跟踪日志
 tracing-subscriber = "0.3.16"
 tracing = "0.1.37"
+
 
 [profile.release]
 opt-level = 3

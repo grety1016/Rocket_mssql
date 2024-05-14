@@ -1,3 +1,4 @@
+use rocket::fairing::AdHoc;
 //rocket use modules:
 //Rocket启动，路由注册，路由分配等
 #[allow(unused_imports)]
@@ -29,6 +30,18 @@ use testmod::{crypto_hash, eventful_fn, get_dbhost, serialize_fn, uuid_fn};
 //extern use modules:
 use lazy_static::lazy_static;
 
+#[derive(Deserialize)]
+struct Appconfig{
+    address:String,
+    port:u16
+}
+
+impl Appconfig  {
+    pub fn new(address:String, port:u16) -> Self {
+        Appconfig{address, port}
+    }
+}
+
 lazy_static! {
     ///一个数字全局变量
     static ref NUMBERS:u32 = 0;
@@ -36,15 +49,16 @@ lazy_static! {
     static ref EVENT_PUBLISH:Arc<Mutex<Option<Eventful>>> = Arc::new(Mutex::new(Some(Eventful::new())));
 }
 
-#[get("/<name>")]
-fn index(name: &str) -> String {
-    let return_str = format!("Hello, world,{}!", name);
+#[get("/")]
+fn index() -> String {
+    let return_str = format!("Hello, world,grety!",);
     return_str
 }
 
 #[launch]
-async fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+async fn rocket() -> _ { 
+    rocket::build() 
+    .mount("/", routes![index])
 }
 
 //#[tokio::main]

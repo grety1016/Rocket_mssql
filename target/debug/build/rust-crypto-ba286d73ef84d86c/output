@@ -9,10 +9,10 @@ exit code: 0
 TARGET = Some("x86_64-pc-windows-msvc")
 TARGET = Some("x86_64-pc-windows-msvc")
 running: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.32.31326\\bin\\HostX64\\x64\\ml64.exe" "/DX64" "/Fo" "F:\\2、RustProgramming\\Rocket_mssql\\target\\debug\\build\\rust-crypto-ba286d73ef84d86c\\out\\src/aesni_helpers.o" "/c" "src/aesni_helpers.asm"
- Assembling: src/aesni_helpers.asm
 cargo:warning=Microsoft (R) Macro Assembler (x64) Version 14.32.31329.0
 cargo:warning=Copyright (C) Microsoft Corporation.  All rights reserved.
 cargo:warning=
+ Assembling: src/aesni_helpers.asm
 exit code: 0
 TARGET = Some("x86_64-pc-windows-msvc")
 running: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.32.31326\\bin\\HostX64\\x64\\lib.exe" "/OUT:F:\\2、RustProgramming\\Rocket_mssql\\target\\debug\\build\\rust-crypto-ba286d73ef84d86c\\out\\lib_rust_crypto_helpers.a" "/nologo" "F:\\2、RustProgramming\\Rocket_mssql\\target\\debug\\build\\rust-crypto-ba286d73ef84d86c\\out\\src/util_helpers.o" "F:\\2、RustProgramming\\Rocket_mssql\\target\\debug\\build\\rust-crypto-ba286d73ef84d86c\\out\\src/aesni_helpers.o"

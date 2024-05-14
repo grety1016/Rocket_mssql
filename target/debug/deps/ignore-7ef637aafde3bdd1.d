@@ -1,0 +1,12 @@
+F:\2、RustProgramming\Rocket_mssql\target\debug\deps\libignore-7ef637aafde3bdd1.rmeta: C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\lib.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\default_types.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\dir.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\gitignore.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\overrides.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\pathutil.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\types.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\walk.rs
+
+F:\2、RustProgramming\Rocket_mssql\target\debug\deps\ignore-7ef637aafde3bdd1.d: C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\lib.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\default_types.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\dir.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\gitignore.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\overrides.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\pathutil.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\types.rs C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\walk.rs
+
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\lib.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\default_types.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\dir.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\gitignore.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\overrides.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\pathutil.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\types.rs:
+C:\Users\Grety\.cargo\registry\src\index.crates.io-6f17d22bba15001f\ignore-0.4.22\src\walk.rs:
